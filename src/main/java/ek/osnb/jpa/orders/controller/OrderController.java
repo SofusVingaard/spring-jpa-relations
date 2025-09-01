@@ -2,6 +2,7 @@ package ek.osnb.jpa.orders.controller;
 
 import ek.osnb.jpa.orders.dto.OrderDto;
 import ek.osnb.jpa.orders.dto.OrderLineDto;
+import ek.osnb.jpa.orders.dto.OrderUpdateDto;
 import ek.osnb.jpa.orders.model.OrderStatus;
 import ek.osnb.jpa.orders.service.OrderService;
 import org.springframework.http.HttpStatus;
@@ -73,4 +74,17 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderDto> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestBody OrderUpdateDto orderUpdateDto
+    ) {
+        try {
+            return ResponseEntity.ok(orderService.updateOrderStatus(id, orderUpdateDto));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }
